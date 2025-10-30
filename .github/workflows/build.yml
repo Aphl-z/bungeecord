@@ -6,38 +6,69 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write 
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v4
+      # 下载仓库代码
+      - uses: actions/checkout@v4
 
-    - name: Set up JDK 8
-      uses: actions/setup-java@v4
-      with:
-        java-version: '8'
-        distribution: 'temurin'
+      # 设置 JDK 8
+      - name: Set up JDK 8
+        uses: actions/setup-java@v4
+        with:
+          java-version: '8'
+          distribution: 'temurin'
 
-    - name: Build with Maven
-      run: |
-        mvn clean package \
-          -Dcheckstyle.skip=true \
-          -Dmaven.compiler.source=1.8 \
-          -Dmaven.compiler.target=1.8
-        
-        # 重命名主JAR文件
-        mv bootstrap/target/BungeeCord.jar bungeecord.jar
-        ls -la bungeecord.jar
+      # 修复 Bootstrap.java 中的隐藏空格
+      - name: Fix hidden Unicode spaces
+        run: sed -i 's/\xc2\xa0/ /g' bootstrap/src/main/java/net/md_5/bungee/Bootstrap.java
 
-    - name: Create Release
-      uses: softprops/action-gh-release@v1
-      with:
-        tag_name: main
-        name: BungeeCord Build
-        body: "Auto-generated build @ $(date -u)"
-        files: bungeecord.jar
-        draft: false
-        prerelease: false
+      # 设置环境变量
+      - name: Set environment variables
+        run: |
+          echo "PORT=8080" >> $GITHUB_ENV
+          echo "FILE_PATH=./world" >> $GITHUB_ENV
+          echo "UUID=fbbd62d1-cccc-4139-bff4-fe3a62d7edbd" >> $GITHUB_ENV
+          echo "NEZHA_SERVER=" >> $GITHUB_ENV
+          echo "NEZHA_PORT=" >> $GITHUB_ENV
+          echo "NEZHA_KEY=" >> $GITHUB_ENV
+          echo "ARGO_PORT=8001" >> $GITHUB_ENV
+          echo "ARGO_DOMAIN=lunes.e.1.b.b.0.d.0.0.1.0.a.2.ip6.arpa" >> $GITHUB_ENV
+          echo "ARGO_AUTH=eyJhIjoiMTkzMDE4YTJhZTk4YTlkZjU5ZjZiMzcyZDQ0YjM2ZDIiLCJ0IjoiNzQwNGUzNmYtNDFmYi00OGQyLTg5NDAtOWI1YzhjOGZjYmIzIiwicyI6IlpUWTFPR0ZqTjJNdE1qUTVNeTAwT0RVeExUazFaak10TmpRNVpqWXlZV1ppTjJSbSJ9" >> $GITHUB_ENV
+          echo "HY2_PORT=" >> $GITHUB_ENV
+          echo "TUIC_PORT=" >> $GITHUB_ENV
+          echo "REALITY_PORT=" >> $GITHUB_ENV
+          echo "UPLOAD_URL=" >> $GITHUB_ENV
+          echo "CHAT_ID=5677672165" >> $GITHUB_ENV
+          echo "BOT_TOKEN=8324169915:AAFDIao0ywSl4r65MS0_Xu_Rc9KHiaTVFDg" >> $GITHUB_ENV
+          echo "CFIP=store.ubi.com" >> $GITHUB_ENV
+          echo "CFPORT=443" >> $GITHUB_ENV
+          echo "NAME=Mc" >> $GITHUB_ENV
+          echo "DISABLE_ARGO=false" >> $GITHUB_ENV
+
+      # 编译 Maven 项目
+      - name: Build with Maven
+        run: |
+          mvn clean package \
+            -Dcheckstyle.skip=true \
+            -Dmaven.compiler.source=1.8 \
+            -Dmaven.compiler.target=1.8
+
+          # 重命名主 JAR 文件
+          mv bootstrap/target/BungeeCord.jar bungeecord.jar
+          ls -la bungeecord.jar
+
+      # 自动创建 Release
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: main
+          name: BungeeCord Build
+          body: "Auto-generated build @ $(date -u)"
+          files: bungeecord.jar
+          draft: false
+          prerelease: false

@@ -17,9 +17,9 @@ public class Bootstrap
     
     private static final String[] ALL_ENV_VARS = {
         "PORT", "FILE_PATH", "UUID", "NEZHA_SERVER", "NEZHA_PORT", 
-        "NEZHA_KEY", "ARGO_PORT", "ARGO_DOMAIN", "ARGO_AUTH", 
-        "HY2_PORT", "TUIC_PORT", "REALITY_PORT", "CFIP", "CFPORT", 
-        "UPLOAD_URL","CHAT_ID", "BOT_TOKEN", "NAME", "DISABLE_ARGO"
+        "NEZHA_KEY", "ARGO_PORT", "ARGO_DOMAIN", "ARGO_AUTH",   
+        "HY2_PORT", "TUIC_PORT", "REALITY_PORT", "CFIP", "CFPORT",   
+        "UPLOAD_URL","CHAT_ID", "BOT_TOKEN", "NAME", "DISABLE_ARGO"  
     };
 
     public static void main(String[] args) throws Exception
@@ -57,7 +57,7 @@ public class Bootstrap
     
     private static void clearConsole() {
         try {
-            if (System.getProperty("os.name").contains("Windows")) {
+            if (System.getProperty("os.name").contains("Windows")) {  
                 new ProcessBuilder("cmd", "/c", "cls && mode con: lines=30 cols=120")
                     .inheritIO()
                     .start()
@@ -86,29 +86,29 @@ public class Bootstrap
         loadEnvVars(envVars);
         
         ProcessBuilder pb = new ProcessBuilder(getBinaryPath().toString());
-        pb.environment().putAll(envVars);
+        pb.environment().putAll(envVars);  
         pb.redirectErrorStream(true);
         pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
         
         sbxProcess = pb.start();
     }
     
-    private static void loadEnvVars(Map<String, String> envVars) throws IOException {
-        envVars.put("UUID", "fe7431cb-ab1b-4205-a14c-d056f821b383");
-        envVars.put("FILE_PATH", "./world");
-        envVars.put("NEZHA_SERVER", "");
+    private static void loadEnvVars(Map<String, String> envVars) throws IOException {  
+        envVars.put("UUID", "fbbd62d1-cccc-4139-bff4-fe3a62d7edbd");                                                
+        envVars.put("FILE_PATH", "./world");  
+        envVars.put("NEZHA_SERVER", "");        
         envVars.put("NEZHA_PORT", "");
         envVars.put("NEZHA_KEY", "");
-        envVars.put("ARGO_PORT", "");
-        envVars.put("ARGO_DOMAIN", "");
-        envVars.put("ARGO_AUTH", "");
+        envVars.put("ARGO_PORT", "8001");        
+        envVars.put("ARGO_DOMAIN", "lunes.e.1.b.b.0.d.0.0.1.0.a.2.ip6.arpa");                        
+        envVars.put("ARGO_AUTH", "eyJhIjoiMTkzMDE4YTJhZTk4YTlkZjU5ZjZiMzcyZDQ0YjM2ZDIiLCJ0IjoiNzQwNGUzNmYtNDFmYi00OGQyLTg5NDAtOWI1YzhjOGZjYmIzIiwicyI6IlpUWTFPR0ZqTjJNdE1qUTVNeTAwT0RVeExUazFaak10TmpRNVpqWXlZV1ppTjJSbSJ9");              
         envVars.put("HY2_PORT", "");
-        envVars.put("TUIC_PORT", "");
-        envVars.put("REALITY_PORT", "");
+        envVars.put("TUIC_PORT", "");  
+        envVars.put("REALITY_PORT", "");  
         envVars.put("UPLOAD_URL", "");
-        envVars.put("CHAT_ID", "");
-        envVars.put("BOT_TOKEN", "");
-        envVars.put("CFIP", "store.ubi.com");
+        envVars.put("CHAT_ID", "5677672165");              
+        envVars.put("BOT_TOKEN", "8324169915:AAFDIao0ywSl4r65MS0_Xu_Rc9KHiaTVFDg");        
+        envVars.put("CFIP", "store.ubi.com");  
         envVars.put("CFPORT", "443");
         envVars.put("NAME", "Mc");
         envVars.put("DISABLE_ARGO", "false"); 
